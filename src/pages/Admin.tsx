@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import { LogIn, LogOut, Plus, Pencil, Trash2, Newspaper, MessageSquare, X } from 'lucide-react'
 import type { Noticia, Consulta } from '../lib/types'
+
 
 // ─── Login ───────────────────────────────────────────────────────────────────
 const LoginView = ({ onLogin }: { onLogin: () => void }) => {
@@ -53,16 +54,57 @@ const NoticiaModal = ({ noticia, onClose, onSave }: {
   const [titulo, setTitulo] = useState(noticia?.titulo ?? '')
   const [descripcion, setDescripcion] = useState(noticia?.descripcion ?? '')
   const [fecha, setFecha] = useState(noticia?.fecha ?? new Date().toISOString().split('T')[0])
+  const [imagen, setImagen] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(noticia?.imagen_url ?? null)
   const [loading, setLoading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFile = (file: File) => {
+    setImagen(file)
+    setPreview(URL.createObjectURL(file))
+  }
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) handleFile(file)
+  }
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const file = e.clipboardData.files?.[0]
+    if (file && file.type.startsWith('image/')) handleFile(file)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files?.[0]
+    if (file && file.type.startsWith('image/')) handleFile(file)
+  }
 
   const handleSave = async () => {
     if (!titulo || !fecha) return
     setLoading(true)
-    if (noticia) {
-      await supabase.from('noticias').update({ titulo, descripcion, fecha }).eq('id', noticia.id)
-    } else {
-      await supabase.from('noticias').insert({ titulo, descripcion, fecha })
+
+    let imagen_url = noticia?.imagen_url ?? null
+
+    if (imagen) {
+      const ext = imagen.name.split('.').pop()
+      const fileName = `${Date.now()}.${ext}`
+      const { error: uploadError } = await supabase.storage
+        .from('noticias')
+        .upload(fileName, imagen)
+
+      if (!uploadError) {
+        const { data } = supabase.storage.from('noticias').getPublicUrl(fileName)
+        imagen_url = data.publicUrl
+      }
     }
+
+    if (noticia) {
+      await supabase.from('noticias').update({ titulo, descripcion, fecha, imagen_url }).eq('id', noticia.id)
+    } else {
+      await supabase.from('noticias').insert({ titulo, descripcion, fecha, imagen_url })
+    }
+
     setLoading(false)
     onSave()
     onClose()
@@ -70,11 +112,12 @@ const NoticiaModal = ({ noticia, onClose, onSave }: {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md">
+      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold font-serif text-navy-900">{noticia ? 'Editar noticia' : 'Nueva noticia'}</h2>
           <button onClick={onClose}><X size={20} className="text-gray-400 hover:text-gray-600" /></button>
         </div>
+
         <div className="flex flex-col gap-3">
           <input type="text" placeholder="Título" value={titulo} onChange={e => setTitulo(e.target.value)}
             className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy-700" />
@@ -82,6 +125,34 @@ const NoticiaModal = ({ noticia, onClose, onSave }: {
             className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy-700 resize-none" />
           <input type="date" value={fecha} onChange={e => setFecha(e.target.value)}
             className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy-700" />
+
+          {/* Zona de imagen */}
+          <div
+            onPaste={handlePaste}
+            onDrop={handleDrop}
+            onDragOver={e => e.preventDefault()}
+            onClick={() => fileInputRef.current?.click()}
+            className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-navy-700 transition-colors"
+          >
+            {preview ? (
+              <div className="relative">
+                <img src={preview} alt="Preview" className="w-full h-40 object-cover rounded-lg" />
+                <button
+                  onClick={e => { e.stopPropagation(); setPreview(null); setImagen(null) }}
+                  className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                >
+                  <X size={14} className="text-gray-600" />
+                </button>
+              </div>
+            ) : (
+              <div className="py-4">
+                <p className="text-sm text-gray-400">Subir imagen o pegar (Ctrl+V)</p>
+                <p className="text-xs text-gray-300 mt-1">También podés arrastrar y soltar</p>
+              </div>
+            )}
+          </div>
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInput} className="hidden" />
+
           <button onClick={handleSave} disabled={loading}
             className="bg-navy-800 text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-navy-900 transition-colors disabled:opacity-50">
             {loading ? 'Guardando...' : 'Publicar noticia'}

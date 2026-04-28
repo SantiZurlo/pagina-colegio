@@ -1,8 +1,8 @@
-import heroBg from '../assets/hero-bg.png'
+import heroBg from '../assets/foto2.jpeg'
 
 const Hero = () => {
   return (
-    <section id="inicio" className="relative h-[80vh] flex items-center justify-center">
+    <section id="inicio" className="relative h-screen flex items-center justify-center">
       
       {/* Imagen de fondo */}
       <img
@@ -16,7 +16,7 @@ const Hero = () => {
 
       {/* Texto */}
       <div className="relative z-10 text-center px-4">
-        <h1 className="text-white font-serif text-4xl md:text-6xl font-bold leading-tight max-w-3xl mx-auto">
+        <h1 className="text-white font-serif text-5xl md:text-7xl font-bold leading-tight max-w-4xl mx-auto">
           Bienvenidos al Instituto Nuestra Señora de Luján de San José de Flores
         </h1>
       </div>
