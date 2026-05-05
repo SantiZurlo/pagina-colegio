@@ -2,7 +2,7 @@ import heroBg from '../assets/foto2.jpeg'
 
 const Hero = () => {
   return (
-    <section id="inicio" className="relative h-screen flex items-center justify-center">
+<section id="inicio" className="relative h-[80vh] flex items-center justify-center">
       
       {/* Imagen de fondo */}
       <img

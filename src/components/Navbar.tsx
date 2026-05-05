@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-navy-800 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="w-full px-8 py-3 flex items-center justify-between">
         
         {/* Logo + Nombre */}
         <div className="flex items-center gap-3">
