@@ -17,7 +17,7 @@ const Navbar = () => {
         
         {/* Logo + Nombre */}
         <div className="flex items-center gap-3">
-          <img src="/src/assets/logo.png" alt="Logo" className="h-10 w-10 object-contain" />
+          <img src="/logo.png" alt="Logo" className="h-10 w-10 object-contain" />
           <span className="text-white font-serif text-sm font-semibold leading-tight">
             Instituto Nuestra Señora de Luján de San José de Flores
           </span>
