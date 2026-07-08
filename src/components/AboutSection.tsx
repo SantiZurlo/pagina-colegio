@@ -5,33 +5,25 @@ const AboutSection = () => {
     <section id="nosotros" className="py-20 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 text-center">
 
-        {/* Logo */}
         <img
           src={schoolLogo}
           alt="Logo del Instituto"
           className="w-24 h-24 object-contain mx-auto mb-6"
         />
 
-        {/* Frase */}
         <p className="text-gray-500 italic text-lg mb-8">
-          "Educamos para la vida, formamos para el futuro"
+          "Una historia de amor y comunidad que comenzó en abril de 1936, cuando abrimos las puertas como escuela. El lugar donde el aprendizaje y los valores de nuestros chicos crecen de la mano."
         </p>
 
-        {/* Título */}
         <h2 className="text-3xl font-bold font-serif text-navy-900 mb-6">
-          Quiénes Somos
+          Nuestra Identidad
         </h2>
 
-        {/* Texto */}
         <p className="text-gray-600 leading-relaxed mb-4">
-          El Instituto Nuestra Señora de Luján es una institución educativa con más de 40 años
-          de trayectoria, dedicada a la formación integral de niños y jóvenes. Nuestro proyecto
-          pedagógico se sustenta en valores como el respeto, la responsabilidad y la excelencia académica.
+          ¡Bienvenidos a nuestra comunidad educativa! Somos el lugar donde el aprendizaje se vive con alegría, curiosidad y afecto. Acompañamos a las infancias en sus etapas más importantes, desde el nivel Inicial, nuestros jardines, hasta la finalización de la Primaria, brindando opciones horarias en el turno mañana y turno tarde para adaptarnos a las necesidades de cada familia.
         </p>
         <p className="text-gray-600 leading-relaxed">
-          Contamos con niveles inicial, primario y secundario, un equipo docente altamente
-          capacitado y espacios modernos para el aprendizaje, el deporte y la creatividad.
-          Acompañamos a cada alumno en su camino hacia un futuro lleno de posibilidades.
+          Creemos que educar es mucho más que transmitir conocimientos: es cobijar, escuchar y guiar. Nos define el trato personalizado, el respeto por los tiempos de cada niño y un equipo docente apasionado por despertar el deseo de aprender. Aquí, cada día es una oportunidad para jugar, explorar, compartir y crecer en valores.
         </p>
 
       </div>
