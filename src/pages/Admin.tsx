@@ -197,6 +197,12 @@ const PanelView = ({ onLogout, userEmail }: { onLogout: () => void, userEmail: s
     fetchConsultas()
   }
 
+  const handleEliminarConsulta = async (id: string) => {
+  if (!confirm('¿Eliminar esta consulta?')) return
+  await supabase.from('consultas').delete().eq('id', id)
+  fetchConsultas()
+}
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -288,6 +294,10 @@ const PanelView = ({ onLogout, userEmail }: { onLogout: () => void, userEmail: s
                             Marcar leída
                           </button>
                         )}
+                        <button onClick={() => handleEliminarConsulta(c.id)}
+                            className="text-xs text-red-500 border border-red-500 rounded-lg px-2 py-1 hover:bg-red-500 hover:text-white transition-colors">
+                            Eliminar
+                          </button>
                       </div>
                     </div>
                   </div>
