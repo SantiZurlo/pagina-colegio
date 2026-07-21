@@ -32,16 +32,6 @@ const ValoresSection = () => {
             </div>
           ))}
         </div>
-
-        <div className="text-center mt-12">
-          <a
-            href="mailto:A346.p@bue.edu.ar"
-            className="inline-block bg-navy-800 text-white font-semibold text-sm px-8 py-4 rounded-xl hover:bg-navy-900 transition-colors tracking-wide"
-            >
-            VACANTES ABIERTAS 2027
-          </a>
-        </div>
-
       </div>
     </section>
   )
