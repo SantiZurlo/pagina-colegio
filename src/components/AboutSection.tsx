@@ -4,12 +4,7 @@ const AboutSection = () => {
   return (
     <section id="nosotros" className="py-20 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 text-center">
-
-        <img
-        src={schoolLogo}
-        alt="Logo del Instituto"
-       className="w-36 h-36 object-contain mx-auto mb-6"
-        />
+        <img src={schoolLogo} alt="Logo del Instituto" className="w-48 h-48 object-contain mx-auto mb-6" />
 
         <p className="text-gray-500 italic text-lg mb-8">
           "Una historia de amor y comunidad que comenzó en abril de 1936, cuando abrimos las puertas como escuela. El lugar donde el aprendizaje y los valores de nuestros chicos crecen de la mano."

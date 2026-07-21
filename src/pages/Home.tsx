@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import AboutSection from '../components/AboutSection'
 import ValoresSection from '../components/ValoresSection'
+import VacantesSection from '../components/VacantesSection'
 import InstagramSection from '../components/InstagramSection'
 import ContactSection from '../components/ContactSection'
 import Footer from '../components/Footer'
@@ -13,6 +14,7 @@ const Home = () => {
       <Hero />
       <AboutSection />
       <ValoresSection />
+      <VacantesSection />
       <InstagramSection />
       <ContactSection />
       <Footer />
