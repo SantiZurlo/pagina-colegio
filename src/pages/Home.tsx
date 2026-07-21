@@ -1,6 +1,5 @@
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
-import NewsSection from '../components/NewsSection'
 import AboutSection from '../components/AboutSection'
 import ValoresSection from '../components/ValoresSection'
 import InstagramSection from '../components/InstagramSection'
@@ -12,7 +11,6 @@ const Home = () => {
     <main>
       <Navbar />
       <Hero />
-      <NewsSection />
       <AboutSection />
       <ValoresSection />
       <InstagramSection />

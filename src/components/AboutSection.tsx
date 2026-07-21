@@ -6,9 +6,9 @@ const AboutSection = () => {
       <div className="max-w-3xl mx-auto px-4 text-center">
 
         <img
-          src={schoolLogo}
-          alt="Logo del Instituto"
-          className="w-24 h-24 object-contain mx-auto mb-6"
+        src={schoolLogo}
+        alt="Logo del Instituto"
+       className="w-36 h-36 object-contain mx-auto mb-6"
         />
 
         <p className="text-gray-500 italic text-lg mb-8">
