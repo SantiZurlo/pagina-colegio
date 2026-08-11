@@ -1,4 +1,10 @@
 const VacantesSection = () => {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+  const emailLink = isMobile
+    ? 'mailto:A346.p@bue.edu.ar'
+    : 'https://mail.google.com/mail/?view=cm&fs=1&to=A346.p@bue.edu.ar'
+
   return (
     <section id="vacantes" className="py-16 bg-navy-800">
       <div className="max-w-3xl mx-auto px-4 text-center">
@@ -9,11 +15,13 @@ const VacantesSection = () => {
           Comunicate a este mail para más información sobre inscripciones
         </p>
         
-        <a href="mailto:A346.p@bue.edu.ar"
-  className="inline-block bg-white text-navy-800 font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors"
->
-  A346.p@bue.edu.ar
-</a>
+          <a href={emailLink}
+          target={isMobile ? undefined : '_blank'}
+          rel={isMobile ? undefined : 'noopener noreferrer'}
+          className="inline-block bg-white text-navy-800 font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors"
+        >
+          A346.p@bue.edu.ar
+        </a>
       </div>
     </section>
   )
