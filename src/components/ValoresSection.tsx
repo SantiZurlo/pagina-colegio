@@ -1,12 +1,12 @@
 const valores = [
-  { emoji: '🤝', label: 'Respeto' },
+  { emoji: '🤲', label: 'Respeto' },
   { emoji: '💛', label: 'Empatía' },
   { emoji: '📚', label: 'Responsabilidad' },
-  { emoji: '🌱', label: 'Solidaridad' },
+  { emoji: '🤝', label: 'Solidaridad' },
   { emoji: '🦋', label: 'Autonomía' },
   { emoji: '⭐', label: 'Superación' },
   { emoji: '❤️', label: 'Amor' },
-  { emoji: '🏫', label: 'Convivencia' },
+  { emoji: '👥', label: 'Convivencia' },
 ]
 
 const ValoresSection = () => {
