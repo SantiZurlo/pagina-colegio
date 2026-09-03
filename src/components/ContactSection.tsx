@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { MapPin, Phone, Mail, Send } from 'lucide-react'
-import { supabase } from '../lib/supabase'
+import emailjs from '@emailjs/browser'
+
+const SERVICE_ID = 'service_tgt9ixs'
+const TEMPLATE_ID = 'template_ncbn6ox'
+const PUBLIC_KEY = '5Lx8X7vz9in-9XwIG'
 
 const ContactSection = () => {
   const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
@@ -21,18 +25,23 @@ const ContactSection = () => {
     setLoading(true)
     setError('')
 
-    const { error } = await supabase.from('consultas').insert({
-      nombre: form.nombre,
-      email: form.email,
-      mensaje: form.mensaje,
-    })
-
-    if (error) {
-      setError('Hubo un error al enviar el mensaje. Intentá de nuevo.')
-    } else {
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: form.nombre,
+          from_email: form.email,
+          message: form.mensaje,
+        },
+        PUBLIC_KEY
+      )
       setEnviado(true)
       setForm({ nombre: '', email: '', mensaje: '' })
+    } catch (err) {
+      setError('Hubo un error al enviar el mensaje. Intentá de nuevo.')
     }
+
     setLoading(false)
   }
 
@@ -46,7 +55,6 @@ const ContactSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
-          {/* Datos de contacto */}
           <div className="flex flex-col gap-6 justify-center">
             <div className="flex items-start gap-4">
               <div className="bg-navy-800 text-white p-3 rounded-xl">
@@ -54,7 +62,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <p className="font-semibold text-navy-900">Dirección</p>
-                <p className="text-gray-500 text-sm">Av. Carabobo 967, C1406DGJ Cdad. Autónoma de Buenos Aires</p>
+                <p className="text-gray-500 text-sm">Avenida Carabobo 967, CABA</p>
               </div>
             </div>
 
@@ -74,12 +82,11 @@ const ContactSection = () => {
               </div>
               <div>
                 <p className="font-semibold text-navy-900">Email</p>
-                <p className="text-gray-500 text-sm">gabinetedecomputacion@hotmail.com</p>
+                <p className="text-gray-500 text-sm">A346.p@bue.edu.ar</p>
               </div>
             </div>
           </div>
 
-          {/* Formulario */}
           <div className="flex flex-col gap-4">
             {enviado && (
               <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm">
