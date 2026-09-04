@@ -7,7 +7,7 @@ const TEMPLATE_ID = 'template_ncbn6ox'
 const PUBLIC_KEY = '5Lx8X7vz9in-9XwIG'
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
+  const [form, setForm] = useState({ nombre: '', email: '', mensaje: '', honeypot: '' })
   const [enviado, setEnviado] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -18,10 +18,25 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (form.honeypot) {
+      setEnviado(true)
+      setForm({ nombre: '', email: '', mensaje: '', honeypot: '' })
+      return
+    }
+
     if (!form.nombre || !form.email || !form.mensaje) {
       setError('Por favor completá todos los campos.')
       return
     }
+
+    const lastSent = localStorage.getItem('lastContactSent')
+    const now = Date.now()
+    if (lastSent && now - parseInt(lastSent) < 60000) {
+      setError('Ya enviaste un mensaje recientemente. Esperá un minuto e intentá de nuevo.')
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -36,8 +51,9 @@ const ContactSection = () => {
         },
         PUBLIC_KEY
       )
+      localStorage.setItem('lastContactSent', now.toString())
       setEnviado(true)
-      setForm({ nombre: '', email: '', mensaje: '' })
+      setForm({ nombre: '', email: '', mensaje: '', honeypot: '' })
     } catch (err) {
       setError('Hubo un error al enviar el mensaje. Intentá de nuevo.')
     }
@@ -123,6 +139,17 @@ const ContactSection = () => {
               onChange={handleChange}
               className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy-700 resize-none"
             />
+
+            <input
+              type="text"
+              name="honeypot"
+              value={form.honeypot}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+              style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0 }}
+            />
+
             <button
               onClick={handleSubmit}
               disabled={loading}
